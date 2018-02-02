@@ -23,5 +23,25 @@ public class VirtualPetShelterTest {
 		assertThat(check, contains(newPet));
 	}
 	
+	@Test
+	public void shouldAddAnotherPetToShelter() {
+		underTest = new VirtualPetShelter();
+		VirtualPet newPet = new VirtualPet("Joe", "", 0, 0, 0);
+		VirtualPet newPet2 = new VirtualPet("Chad", "", 0, 0, 0);
+		underTest.admitPet(newPet);
+		underTest.admitPet(newPet2);
+		Collection<VirtualPet> check = underTest.petList();
+		assertThat(check, contains(newPet, newPet2));
+	}
+
+	@Test
+	public void shouldRemovePetFromShelter() {
+		underTest = new VirtualPetShelter();
+		VirtualPet newPet = new VirtualPet("Joe", "", 0, 0, 0);
+		underTest.adoptPet(newPet);
+		Collection<VirtualPet> check = underTest.petList();
+		assertThat(check, contains(newPet));
+	}
+
 	
 }
