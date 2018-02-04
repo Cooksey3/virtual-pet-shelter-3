@@ -19,6 +19,9 @@ public class VirtualPet {
 	public VirtualPet(String petName, String petDescription) {
 		this.petName = petName;
 		this.petDescription = petDescription;
+		thirstLevel = 0;
+		hungerLevel = 0;
+		boredomLevel = 0;
 	}
 
 	public int getHunger() {
@@ -52,10 +55,15 @@ public class VirtualPet {
 	public void playWithPet() {
 		boredomLevel -= 1;
 	}
-	
+
 	public void tick() {
 		thirstLevel += 1;
 		hungerLevel += 1;
 		boredomLevel += 1;
+	}
+
+	@Override
+	public String toString() {
+		return petName + "\t|" + hungerLevel + "\t|" + thirstLevel + "\t|" + boredomLevel;
 	}
 }

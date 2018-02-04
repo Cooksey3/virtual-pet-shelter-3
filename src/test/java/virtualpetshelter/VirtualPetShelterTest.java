@@ -1,47 +1,119 @@
 package virtualpetshelter;
 
-import java.util.Collection;
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
+import java.util.Collection;
+
+import org.junit.Before;
 import org.junit.Test;
 
 public class VirtualPetShelterTest {
-	
+
+	private static final String PET_NAME = "Bilbo";
+	private static final String PET_DESCRIPTION = "is doing well";
+
 	private VirtualPetShelter underTest;
-	
 	private VirtualPet newPet;
-	
+
+	@Before
+	public void setup() {
+		underTest = new VirtualPetShelter();
+
+		newPet = new VirtualPet(PET_NAME, "", 0, 0, 0);
+
+	}
+
 	@Test
 	public void shouldAddPetToShelter() {
-		underTest = new VirtualPetShelter();
-		VirtualPet newPet = new VirtualPet("", "", 0, 0, 0);
 		underTest.admitPet(newPet);
-		Collection<VirtualPet> check = underTest.petList();
-		assertThat(check, contains(newPet));
+		VirtualPet findPet = underTest.findPet(PET_NAME);
+		assertThat(findPet, is(newPet));
 	}
-	
+
 	@Test
-	public void shouldAddAnotherPetToShelter() {
-		underTest = new VirtualPetShelter();
-		VirtualPet newPet = new VirtualPet("Joe", "", 0, 0, 0);
-		VirtualPet newPet2 = new VirtualPet("Chad", "", 0, 0, 0);
+	public void shouldAddMultiplPetsToShelter() {
+		String anotherPetName = "Chad";
+		VirtualPet newPet2 = new VirtualPet(anotherPetName, PET_DESCRIPTION, 0, 0, 0);
+
 		underTest.admitPet(newPet);
 		underTest.admitPet(newPet2);
+
 		Collection<VirtualPet> check = underTest.petList();
-		assertThat(check, contains(newPet, newPet2));
+
+		assertThat(check, containsInAnyOrder(newPet, newPet2));
 	}
 
 	@Test
-	public void shouldRemovePetFromShelter() {
-		underTest = new VirtualPetShelter();
-		VirtualPet newPet = new VirtualPet("Joe", "", 0, 0, 0);
-		underTest.adoptPet(newPet);
-		Collection<VirtualPet> check = underTest.petList();
-		assertThat(check, contains(newPet));
+	public void shouldRemovePetFromShelterByName() {
+		underTest.admitPet(newPet);
+		underTest.adoptPet(PET_NAME);
+		VirtualPet check = underTest.findPet(PET_NAME);
+		assertThat(check, is(nullValue()));
 	}
 
-	
+	@Test
+	public void shouldFeedAllPets() {
+		VirtualPet newPet2 = new VirtualPet("Chad", PET_DESCRIPTION, 0, 0, 0);
+		underTest.admitPet(newPet);
+		underTest.admitPet(newPet2);
+		underTest.feedAllPets();
+
+		assertThat(newPet.getHunger(), is(-1));
+		assertThat(newPet2.getHunger(), is(-1));
+	}
+
+	@Test
+	public void shouldWaterAllPets() {
+		VirtualPet newPet2 = new VirtualPet("Chad", PET_DESCRIPTION, 0, 0, 0);
+		underTest.admitPet(newPet);
+		underTest.admitPet(newPet2);
+		underTest.waterAllPets();
+
+		assertThat(newPet.getThirst(), is(-1));
+		assertThat(newPet2.getThirst(), is(-1));
+	}
+
+	@Test
+	public void shouldPlayWithAllPets() {
+		VirtualPet newPet2 = new VirtualPet("Chad", PET_DESCRIPTION, 0, 0, 0);
+		underTest.admitPet(newPet);
+		underTest.admitPet(newPet2);
+		underTest.playWithAllPets();
+
+		assertThat(newPet.getBoredom(), is(-1));
+		assertThat(newPet2.getBoredom(), is(-1));
+	}
+
+	@Test
+	public void shouldPlayWithOnePet() {
+		VirtualPet newPet2 = new VirtualPet("Chad", PET_DESCRIPTION, 0, 0, 0);
+		underTest.admitPet(newPet);
+		underTest.admitPet(newPet2);
+		underTest.playWithOnePet(PET_NAME);
+
+		assertThat(newPet.getBoredom(), is(-1));
+		assertThat(newPet2.getBoredom(), is(0));
+	}
+
+	@Test
+	public void shouldTickAllPets() {
+		underTest.admitPet(newPet);
+		VirtualPet newPet2 = new VirtualPet("Chad", "", 0, 0, 0);
+		underTest.admitPet(newPet2);
+		underTest.tickAllPets();
+		assertThat(newPet.getBoredom(), is(1));
+		assertThat(newPet2.getHunger(), is(1));
+	}
+
+	@Test
+	public void shouldCallPetToString() {
+		underTest.admitPet(newPet);
+		String petToString = underTest.getPetToString(PET_NAME);
+		assertThat(petToString, is(newPet.toString()));
+	}
 }

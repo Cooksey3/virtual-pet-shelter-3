@@ -8,7 +8,6 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-
 import java.util.Collection;
 
 import org.junit.Test;
@@ -104,7 +103,7 @@ public class VirtualPetTest {
 		underTest = new VirtualPet(PET_NAME, PET_DESCRIPTION, 0, 0, 0);
 		underTest.waterPet();
 		int thirstLevel = underTest.getThirst();
-		assertEquals(-1, thirstLevel);
+		assertEquals(thirstLevel, -1);
 	}
 
 	@Test
@@ -113,5 +112,13 @@ public class VirtualPetTest {
 		underTest.playWithPet();
 		int boredomLevel = underTest.getBoredom();
 		assertEquals(-1, boredomLevel);
+	}
+
+	@Test
+	public void toStringShouldDisplayNameWithVitals() {
+		underTest = new VirtualPet(PET_NAME, PET_DESCRIPTION, 0, 0, 0);
+		String petToString = underTest.toString();
+		assertEquals((underTest.getName() + "\t|" + underTest.getHunger() + "\t|" + underTest.getThirst() + "\t|"
+				+ underTest.getBoredom()), petToString);
 	}
 }
