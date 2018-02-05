@@ -30,28 +30,10 @@ public class VirtualPetShelter {
 		}
 	}
 
-	public int getPetHungerLevel(String petName) {
-		for (VirtualPet pets : shelter.values()) {
-			if (pets.getName().equals(petName)) {
-				return pets.getHunger();
-			}
-		}
-		return -1;
-	}
-
 	public void waterAllPets() {
 		for (VirtualPet pets : shelter.values()) {
 			pets.waterPet();
 		}
-	}
-
-	public int getPetThirstLevel(String petName) {
-		for (VirtualPet pets : shelter.values()) {
-			if (pets.getName().equals(petName)) {
-				return pets.getThirst();
-			}
-		}
-		return -1;
 	}
 
 	public void playWithAllPets() {
@@ -68,27 +50,9 @@ public class VirtualPetShelter {
 		}
 	}
 
-	public int getPetBoredomLevel(String petName) {
-		for (VirtualPet pets : shelter.values()) {
-			if (pets.getName().equals(petName)) {
-				return pets.getBoredom();
-			}
-		}
-		return -1;
-	}
-
 	public void tickAllPets() {
 		for (VirtualPet pets : shelter.values()) {
 			pets.tick();
 		}
-	}
-
-	public String getPetToString(String petName) {
-		for (VirtualPet pets : shelter.values()) {
-			if (pets.getName().equals(petName)) {
-				return pets.toString();
-			}
-		}
-		return "";
 	}
 }

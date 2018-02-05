@@ -109,11 +109,4 @@ public class VirtualPetShelterTest {
 		assertThat(newPet.getBoredom(), is(1));
 		assertThat(newPet2.getHunger(), is(1));
 	}
-
-	@Test
-	public void shouldCallPetToString() {
-		underTest.admitPet(newPet);
-		String petToString = underTest.getPetToString(PET_NAME);
-		assertThat(petToString, is(newPet.toString()));
-	}
 }

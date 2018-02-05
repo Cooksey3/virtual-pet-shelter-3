@@ -35,12 +35,16 @@ public class VirtualPetShelterApp {
 			System.out.println("Thank you for admitting " + petName);
 			System.out.println("Would you like to admit another pet? (y/n)");
 			answer = input.nextLine();
+			while (!((answer.toLowerCase().equals("y")) || (answer.toLowerCase().equals("n")))) {
+				System.out.println("Invalid response. Please try again.");
+				answer = input.nextLine();
+			}
 		}
 
 		System.out.println("Here are your pets' current vitals: ");
 
 		answer = "";
-		while (!(answer.equals("6"))) {
+		while (!(answer.equals("7"))) {
 
 			System.out.println();
 			System.out.println("Name\t|Hunger\t|Thirst\t|Boredom");
@@ -53,10 +57,11 @@ public class VirtualPetShelterApp {
 			System.out.println();
 			System.out.println("1. Feed the pets");
 			System.out.println("2. Water the pets");
-			System.out.println("3. Play with a pet");
-			System.out.println("4. Adopt a pet");
-			System.out.println("5. Admit a pet");
-			System.out.println("6. Go home");
+			System.out.println("3. Play with all of the pets");
+			System.out.println("4. Play with a pet");
+			System.out.println("5. Adopt a pet");
+			System.out.println("6. Admit a pet");
+			System.out.println("7. Go home");
 
 			answer = input.nextLine();
 
@@ -67,26 +72,35 @@ public class VirtualPetShelterApp {
 				System.out.println("You watered the pets!");
 				pets.waterAllPets();
 			} else if (answer.equals("3")) {
+				System.out.println("You played with all of the pets!");
+				System.out.println("The pets love you!");
+				pets.playWithAllPets();
+			} else if (answer.equals("4")) {
 				System.out.println("What is the name of the pet you would like to play with?");
 				for (VirtualPet pet : pets.petList()) {
-					System.out.println(pet.getName() + " " + pet.petDescription());
+					System.out.println("[" + pet.getName() + "]" + " " + pet.petDescription());
 				}
 				String petName = input.nextLine();
 				System.out.println("You decided to play with " + petName);
-				System.out.println("[" + petName + "]" + " is much happier now.");
+				System.out.println(petName + " is much happier now.");
 				pets.playWithOnePet(petName);
-			} else if (answer.equals("4")) {
+			} else if (answer.equals("5")) {
 				System.out.println("Which pet would you like to adopt?");
 				String petName = input.nextLine();
-				pets.adoptPet(petName);
-			} else if (answer.equals("5")) {
+				if (pets.petList().contains(petName)) {
+					pets.adoptPet(petName);
+				} else {
+					System.out.println("Sorry, that pet has not been admitted to the shelter.");
+					System.out.println("Please try again");
+				}
+			} else if (answer.equals("6")) {
 				System.out.println("Thank you for admitting another pet.");
 				System.out.println("Please input the pet's name: ");
 				String petName = input.nextLine();
 				System.out.println("Please give your pet a short description: ");
 				String petDescription = input.nextLine();
 				pets.admitPet(new VirtualPet(petName, petDescription));
-			} else if (!answer.equals("6")) {
+			} else if (!answer.equals("7")) {
 				System.out.println("You are waiting too long.");
 				System.out.println("Please do something:");
 			}
